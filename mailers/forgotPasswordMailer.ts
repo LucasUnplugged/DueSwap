@@ -9,12 +9,16 @@ import previewEmail from 'preview-email'
 type ResetPasswordMailer = {
   to: string
   token: string
+  input?: string
+  output?: string
 }
 
-export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
+export function forgotPasswordMailer({ to, input, output, token }: ResetPasswordMailer) {
   // In production, set APP_ORIGIN to your production server origin
   const origin = process.env.APP_ORIGIN || process.env.BLITZ_DEV_SERVER_ORIGIN
-  const resetUrl = `${origin}/reset-password?token=${token}`
+  const inputParam = input ? `&input=${input}` : ''
+  const outputParam = output ? `&output=${output}` : ''
+  const resetUrl = `${origin}/reset-password?token=${token}${inputParam}${outputParam}`
 
   const msg = {
     from: 'TODO@example.com',

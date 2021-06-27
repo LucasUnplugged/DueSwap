@@ -1,5 +1,6 @@
 import { Document, Html, DocumentHead, Main, BlitzScript /*DocumentContext*/ } from 'blitz'
 import { ColorModeScript } from '@chakra-ui/react'
+import theme from 'app/core/styles/theme'
 
 class MyDocument extends Document {
   // Only uncomment if you need to customize this behaviour
@@ -13,7 +14,7 @@ class MyDocument extends Document {
       <Html lang="en">
         <DocumentHead />
         <body>
-          <ColorModeScript initialColorMode="light" />
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <Main />
           <BlitzScript />
         </body>

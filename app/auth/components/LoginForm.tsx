@@ -1,11 +1,15 @@
 import { AuthenticationError, Link, useMutation, Routes, useRouter } from 'blitz'
-import { LabeledTextField } from 'app/core/components/LabeledTextField'
 import { Form, FORM_ERROR } from 'app/core/components/Form'
 import login from 'app/auth/mutations/login'
 import { Login } from 'app/auth/validations'
+import { User } from '../models/models'
+import React from 'react'
+import { VStack, Link as UILink, Center } from '@chakra-ui/react'
+import LabeledTextField from 'app/core/components/LabeledTextField'
 
 type LoginFormProps = {
-  onSuccess?: () => void
+  onInit?: () => void
+  onSuccess?: (user: User) => void
 }
 
 export const LoginForm = (props: LoginFormProps) => {
@@ -13,17 +17,16 @@ export const LoginForm = (props: LoginFormProps) => {
   const [loginMutation] = useMutation(login)
 
   return (
-    <div>
-      <h1>Login</h1>
-
+    <VStack minH="200px" justifyContent="center">
       <Form
         submitText="Login"
         schema={Login}
         initialValues={{ email: '', password: '' }}
         onSubmit={async (values) => {
           try {
-            await loginMutation(values)
-            props.onSuccess?.()
+            props.onInit?.()
+            const user = await loginMutation(values)
+            props.onSuccess?.(user)
           } catch (error) {
             if (error instanceof AuthenticationError) {
               return { [FORM_ERROR]: 'Sorry, those credentials are invalid' }
@@ -35,19 +38,22 @@ export const LoginForm = (props: LoginFormProps) => {
           }
         }}
       >
-        <LabeledTextField name="email" label="Email" placeholder="Email" />
-        <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
-        <div>
-          <Link href={Routes.ForgotPasswordPage()}>
-            <a>Forgot your password?</a>
+        <LabeledTextField isRequired={true} label="Email" name="email" placeholder="Email address" type="email" />
+        <LabeledTextField isRequired={true} label="Password" name="password" placeholder="Password" type="password" />
+
+        <Center as="aside">
+          <Link href={Routes.ForgotPasswordPage(query)} passHref>
+            <UILink>Forgot your password?</UILink>
           </Link>
-        </div>
+        </Center>
       </Form>
 
-      <div style={{ marginTop: '1rem' }}>
-        Or <Link href={Routes.SignupPage(query)}>Sign Up</Link>
-      </div>
-    </div>
+      <Center as="footer">
+        <Link href={Routes.SignupPage(query)} passHref>
+          <UILink>Sign up</UILink>
+        </Link>
+      </Center>
+    </VStack>
   )
 }
 

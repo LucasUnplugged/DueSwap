@@ -14,6 +14,8 @@ export const Login = z.object({
 
 export const ForgotPassword = z.object({
   email: z.string().email(),
+  input: z.string().optional(),
+  output: z.string().optional(),
 })
 
 export const ResetPassword = z

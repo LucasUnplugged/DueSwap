@@ -1,7 +1,8 @@
-import { useState, ReactNode, PropsWithoutRef } from 'react'
+import React, { useState, ReactNode, PropsWithoutRef } from 'react'
 import { FormProvider, useForm, UseFormProps } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { Button, VStack } from '@chakra-ui/react'
 
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'> {
@@ -27,7 +28,6 @@ export function Form<S extends z.ZodType<any, any>>({
   schema,
   initialValues,
   onSubmit,
-  ...props
 }: FormProps<S>) {
   const ctx = useForm<z.infer<S>>({
     mode: 'onBlur',
@@ -38,7 +38,8 @@ export function Form<S extends z.ZodType<any, any>>({
 
   return (
     <FormProvider {...ctx}>
-      <form
+      <VStack
+        as="form"
         onSubmit={ctx.handleSubmit(async (values) => {
           const result = (await onSubmit(values)) || {}
           for (const [key, value] of Object.entries(result)) {
@@ -52,8 +53,9 @@ export function Form<S extends z.ZodType<any, any>>({
             }
           }
         })}
-        className="form"
-        {...props}
+        px="16px"
+        spacing="30px"
+        w="100%"
       >
         {/* Form fields supplied as children are rendered here */}
         {children}
@@ -65,17 +67,11 @@ export function Form<S extends z.ZodType<any, any>>({
         )}
 
         {submitText && (
-          <button type="submit" disabled={ctx.formState.isSubmitting}>
+          <Button type="submit" disabled={ctx.formState.isSubmitting} variant="solid" w="100%">
             {submitText}
-          </button>
+          </Button>
         )}
-
-        <style global jsx>{`
-          .form > * + * {
-            margin-top: 1rem;
-          }
-        `}</style>
-      </form>
+      </VStack>
     </FormProvider>
   )
 }

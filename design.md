@@ -84,6 +84,15 @@ The app should have the following components:
 
 ---
 
-# Assumptions
+# Notes & Assumptions
 
+- There is an non-fatal error on the Swap page, that states "Can't perform a React state update on a component that hasn't mounted yet". This appears to be a known issue on the version of I'm using, and I don't have time to dig much deeper than that at the moment.
 - Used login instead of wallet connection, mainly because it comes with Blitz.js, and I didn't want to worry about figuring out wallets.
+- Haven't implemented much in terms of error handling and notifications.
+
+---
+
+# Possible Improvements
+
+- Generated `gql` queries based on Type passed in for the data, plus search params
+- Saving user's most recent choices to local storage, then to DB, once they login
