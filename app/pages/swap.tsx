@@ -98,7 +98,7 @@ const UserInfo = () => {
   }
 }
 
-const Home: BlitzPage = () => {
+const Swap: BlitzPage = () => {
   // const { query } = useUniswap<PairGraphData>()
   // query(`
   //   {
@@ -171,7 +171,7 @@ const Home: BlitzPage = () => {
   )
 }
 
-Home.suppressFirstRenderFlicker = true
-Home.getLayout = (page) => <Layout title="Home">{page}</Layout>
+Swap.suppressFirstRenderFlicker = true
+Swap.getLayout = (page) => <Layout title="Swap">{page}</Layout>
 
-export default Home
+export default Swap

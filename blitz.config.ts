@@ -1,9 +1,18 @@
-import { BlitzConfig, sessionMiddleware, simpleRolesIsAuthorized } from "blitz"
+import { BlitzConfig, sessionMiddleware, simpleRolesIsAuthorized } from 'blitz'
 
 const config: BlitzConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/swap',
+        permanent: true,
+      },
+    ]
+  },
   middleware: [
     sessionMiddleware({
-      cookiePrefix: "DueSwap",
+      cookiePrefix: 'DueSwap',
       isAuthorized: simpleRolesIsAuthorized,
     }),
   ],
