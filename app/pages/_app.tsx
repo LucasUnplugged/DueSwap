@@ -19,23 +19,23 @@ export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
 
   return (
-    <Suspense
-      fallback={
-        <Center h="100vh" w="100vw">
-          <Loader isLoading={true} />
-        </Center>
-      }
-    >
-      <UniswapProvider>
-        <UserProvider>
-          <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme}>
+      <Suspense
+        fallback={
+          <Center h="100vh" w="100vw">
+            <Loader isLoading={true} />
+          </Center>
+        }
+      >
+        <UniswapProvider>
+          <UserProvider>
             <ErrorBoundary FallbackComponent={RootErrorFallback} onReset={useQueryErrorResetBoundary().reset}>
               {getLayout(<Component {...pageProps} />)}
             </ErrorBoundary>
-          </ChakraProvider>
-        </UserProvider>
-      </UniswapProvider>
-    </Suspense>
+          </UserProvider>
+        </UniswapProvider>
+      </Suspense>
+    </ChakraProvider>
   )
 }
 
