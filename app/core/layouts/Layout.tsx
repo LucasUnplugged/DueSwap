@@ -15,8 +15,7 @@ const Layout = ({ title, children }: LayoutProps) => {
         <title>{`${title} – DueSwap` || 'DueSwap'}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Grid templateRows="80px auto" as="main">
+      <Grid minH="100vh" templateRows={{ base: '160px minmax(400px, auto)', sm: '80px minmax(400px, auto)' }} as="main">
         <Header />
         {children}
       </Grid>
